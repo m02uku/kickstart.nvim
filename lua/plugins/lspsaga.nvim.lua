@@ -19,10 +19,10 @@ return {
     -- ============================================================
 
     -- 浮遊ターミナル: ログの確認やコマンド実行に
-    keymap({ 'n', 't' }, '<leader>tt', '<cmd>Lspsaga term_toggle<CR>', { desc = 'Saga: Toggle Float Terminal' })
+    -- keymap({ 'n', 't' }, '<C-/>', '<cmd>Lspsaga term_toggle<CR>', { desc = 'Saga: Toggle Float Terminal' })
 
     -- 診断一覧: ファイル内のエラー/警告を一覧表示 (LSPがなくても空のリストが出るだけなので安全)
-    keymap('n', '<leader>sd', '<cmd>Lspsaga show_buf_diagnostics<CR>', { desc = 'Saga: Show Buffer Diagnostics' })
+    -- keymap('n', '<leader>d', '<cmd>Lspsaga show_buf_diagnostics<CR>', { desc = 'Saga: Show Buffer Diagnostics' })
 
     -- ============================================================
     -- 2. LSPが有効な時だけ使いたい機能 (LspAttach)
@@ -37,19 +37,24 @@ return {
         map('n', '[d', '<cmd>Lspsaga diagnostic_jump_prev<CR>', 'Prev Diagnostic')
         map('n', ']d', '<cmd>Lspsaga diagnostic_jump_next<CR>', 'Next Diagnostic')
 
-        -- ドキュメント・情報
-        map('n', 'K', '<cmd>Lspsaga hover_doc<CR>', 'Hover Documentation')
+        -- ‼️【ここを書き換え】ドキュメント・情報
+        -- Snacks画像があればそれを優先し、なければ Sags hover を実行
+        map('n', 'K', function()
+          if Snacks.image.hover() then
+            return
+          end
+          vim.cmd 'Lspsaga hover_doc'
+        end, 'Hover (Image or LSP)')
+
         map('n', 'gO', '<cmd>Lspsaga outline<CR>', 'Toggle Outline')
 
         -- 定義・参照 (Lspsaga UI)
         map('n', 'grn', '<cmd>Lspsaga rename<CR>', 'Rename')
         map('n', 'gra', '<cmd>Lspsaga code_action<CR>', 'Code Action')
-        map('n', 'grr', '<cmd>Lspsaga lsp_finder<CR>', 'LSP Finder')
+        map('n', 'grf', '<cmd>Lspsaga lsp_finder<CR>', 'LSP Finder')
         map('n', 'grd', '<cmd>Lspsaga peek_definition<CR>', 'Peek Definition')
         map('n', 'gD', '<cmd>Lspsaga goto_definition<CR>', 'Goto Definition')
         map('n', 'grD', '<cmd>Lspsaga goto_declaration<CR>', 'Goto Declaration')
-        map('n', 'gri', '<cmd>Lspsaga goto_implementation<CR>', 'Goto Implementation')
-        map('n', 'grt', '<cmd>Lspsaga peek_type_definition<CR>', 'Peek Type Definition')
       end,
     })
   end,
