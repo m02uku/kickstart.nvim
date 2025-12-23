@@ -7,44 +7,80 @@ return {
     -- ‼️ すべての推奨機能を有効化
     bigfile = { enabled = true },
     bufdelete = { enabled = true },
-    dashboard = {
-      enabled = true,
-      sections = {
-        {
-          section = 'terminal',
-          -- -f big を指定
-          cmd = "figlet -f poison '[m02uku]'",
-          hl = 'SnacksDashboardHeader',
-          width = 80, -- 横幅（文字数換算）
-          height = 15, -- 高さ（行数換算）
-          indent = -10,
-        },
-        {
-          section = 'recent_files',
-          title = ' Recent Files',
-          icon = ' ',
-          limit = 5,
-          padding = 2,
-        },
-        {
-          section = 'projects',
-          title = ' Projects',
-          icon = ' ',
-          padding = 2,
-          -- プロジェクト名の表示をカスタマイズ（必要であれば）
-        },
-        -- 4. クイックメニュー
-        {
-          section = 'keys',
-          -- gap = 1,
-          padding = 2,
-        },
-        -- 5. 起動時間とプラグイン数
-        {
-          section = 'startup',
-        },
-      },
-    },
+    -- dashboard = {
+    --   enabled = true,
+    --   sections = {
+    --     {
+    --       section = 'terminal',
+    --       cmd = "figlet -f poison '[m02uku]'",
+    --       hl = 'SnacksDashboardHeader',
+    --       width = 80,
+    --       height = 15,
+    --       indent = -10,
+    --     },
+    --     {
+    --       section = 'recent_files',
+    --       title = ' Recent Files',
+    --       icon = ' ',
+    --       limit = 5,
+    --       padding = 2,
+    --     },
+    --     -- ▽ ここから追加: MiniSessions セクション ▽
+    --     -- snacks.nvim の opts.dashboard.sections 内に配置
+    --     function()
+    --       -- mini.sessionsがロードされているか確認
+    --       local ok, mini_sessions = pcall(require, 'mini.sessions')
+    --       if not ok or not mini_sessions.detected then
+    --         return {}
+    --       end
+    --
+    --       local items = {}
+    --       -- 検出されたセッションをループ
+    --       for name, _ in pairs(mini_sessions.detected) do
+    --         table.insert(items, {
+    --           icon = '󰦛 ',
+    --           -- セッション名の1文字目をショートカットキーにする（重複注意）
+    --           key = name:sub(1, 1):lower(),
+    --           desc = name,
+    --           -- アクション：セッションを読み込む
+    --           action = function()
+    --             mini_sessions.read(name)
+    --           end,
+    --         })
+    --       end
+    --
+    --       -- セッションが存在しない場合はセクションを表示しない
+    --       if #items == 0 then
+    --         return {}
+    --       end
+    --
+    --       -- 見栄えのために名前順でソート
+    --       table.sort(items, function(a, b)
+    --         return a.desc < b.desc
+    --       end)
+    --
+    --       -- Snacksが期待するセクション構造の配列を返す
+    --       return {
+    --         { section = 'text', text = ' 󰦛 Sessions', hl = 'SnacksDashboardSpecial', padding = 1 },
+    --         { section = 'keys', gap = 1, padding = 1, items = items },
+    --       }
+    --     end,
+    --     -- △ ここまで追加 △
+    --     {
+    --       section = 'projects',
+    --       title = ' Projects',
+    --       icon = ' ',
+    --       padding = 2,
+    --     },
+    --     {
+    --       section = 'keys',
+    --       padding = 2,
+    --     },
+    --     {
+    --       section = 'startup',
+    --     },
+    --   },
+    -- },
     -- debug = { enabled = true },
     -- explorer = { enabled = true },
     git = { enabled = true },
@@ -59,7 +95,7 @@ return {
     scope = { enabled = true },
     scroll = { enabled = true },
     -- statuscolumn = { enabled = true },
-    words = { enabled = true },
+    -- words = { enabled = true },
 
     -- ‼️ Ghostty 環境を最大限活かす設定
     image = { enabled = true },
