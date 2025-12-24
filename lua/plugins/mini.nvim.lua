@@ -140,6 +140,7 @@ return {
         if ok then
           stats = '  󰏖 ' .. lazy.stats().count .. ' plugins'
         end
+        return datetime .. stats
       end,
     }
 
