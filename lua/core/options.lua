@@ -3,7 +3,7 @@
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
-vim.g.python3_host_prog = os.getenv 'HOME' .. '/.venvs/jupyenv/bin/python'
+-- vim.g.python3_host_prog = os.getenv 'HOME' .. '/.venvs/jupyenv/bin/python'
 
 -- Make line numbers default
 vim.o.number = true
