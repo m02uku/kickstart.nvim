@@ -117,6 +117,15 @@ return {
       end,
     })
 
+    -- Jupyter Notebook のバッファで LSP attach
+    -- vim.api.nvim_create_autocmd("BufReadPost", {
+    -- 	pattern = "*.ipynb",
+    -- 	callback = function()
+    -- 		-- jupytext により py:percent バッファが作られる
+    -- 		require("jupytext").sync_notebook()
+    -- 	end,
+    -- })
+
     -- Diagnostic Config
     -- See :help vim.diagnostic.Opts
     vim.diagnostic.config {
@@ -189,6 +198,10 @@ return {
           },
         },
       },
+      -- ruff = {
+      --   filetypes = { 'python', 'py:percent' }, -- <--- ここを追加
+      --   settings = {},
+      -- },
     }
 
     -- Ensure the servers and tools above are installed

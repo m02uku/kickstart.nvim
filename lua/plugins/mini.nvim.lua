@@ -3,18 +3,6 @@ return {
   keys = {
     -- \ キーはトグルとして使いやすいのでそのまま残し、
     -- leader系を <leader>m に集約します
-    {
-      '\\',
-      function()
-        local mf = require 'mini.files'
-        if not mf.close() then
-          mf.open(vim.api.nvim_buf_get_name(0))
-        end
-      end,
-      desc = 'Toggle Mini Files',
-    },
-
-    -- <leader>m (mini) プレフィックス
     -- Files
     {
       '\\',
@@ -23,6 +11,8 @@ return {
       end,
       desc = 'Mini Files (cwd)',
     },
+
+    -- <leader>m (mini) プレフィックス
 
     -- Visits (履歴・お気に入り)
     {
@@ -102,11 +92,13 @@ return {
     require('mini.sessions').setup()
     require('mini.visits').setup()
     require('mini.cmdline').setup()
-
-    local starter = require 'mini.starter'
+    require('mini.hipatterns').setup()
 
     -- figlet -f poison '[m02uku]' の出力をそのまま変数に格納
-    local my_header = [[
+    local starter = require 'mini.starter'
+
+    starter.setup {
+      header = [[
                                                                                
 @@@@@  @@@@@@@@@@    @@@@@@@@    @@@@@@   @@@  @@@  @@@  @@@  @@@  @@@  @@@@@  
 @@@@@  @@@@@@@@@@@  @@@@@@@@@@  @@@@@@@@  @@@  @@@  @@@  @@@  @@@  @@@  @@@@@  
@@ -119,10 +111,7 @@ return {
 :::::  :::     ::   ::::::: ::  :: :::::  ::::: ::   ::  :::  ::::: ::  :::::  
  : :    :      :     : : :  :   :: : :::   : :  :    :   :::   : :  :    : :   
                                                                                
-]]
-
-    starter.setup {
-      header = my_header,
+]],
       items = {
         starter.sections.sessions(5, true), -- セッション
         starter.sections.recent_files(5, false), -- 最近のファイル
@@ -144,11 +133,18 @@ return {
       end,
     }
 
-    -- mini.hipatterns 設定 (hexカラーのみ)
-    local hipatterns = require 'mini.hipatterns'
-    hipatterns.setup {
-      highlighters = {
-        hex_color = hipatterns.gen_highlighter.hex_color(),
+    require('mini.files').setup {
+      windows = {
+        -- Maximum number of windows to show side by side
+        max_number = math.huge,
+        -- Whether to show preview of file/directory under cursor
+        preview = true,
+        -- Width of focused window
+        width_focus = 50,
+        -- Width of non-focused window
+        width_nofocus = 25,
+        -- Width of preview window
+        width_preview = 50,
       },
     }
   end,
